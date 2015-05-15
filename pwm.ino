@@ -64,12 +64,12 @@ int b = 0;
 /*******************************************************************************
 * RGB LED
 *******************************************************************************/
-const int LEDr = 0;
-const int LEDg = 0;
-const int LEDb = 0;
+const int LEDr = 7;
+const int LEDg = 6;
+const int LEDb = 5;
 
 int rVal = 0;
-int gVal = 255;
+int gVal = 0;
 int bVal = 0;
 
 
@@ -77,16 +77,15 @@ int bVal = 0;
 void setup() {
   Serial.begin(9600);
 
-	setupEthernet();
-  setupColourSensor();
-	setupRGBLED();
+  //setupEthernet();
+  //setupColourSensor();
+  setupRGBLED();
 }
 
 void loop() {
   //readColour();
   //printColour();
-
-  delay(200);
+  fadeColour();
 }
 
 /*******************************************************************************
@@ -115,7 +114,7 @@ void setupEthernet() {
 
   while (Ethernet.begin(mac) == 0) {
     Serial.println("No DHCP");
-    delay(1000);
+    delay(500);
     Serial.println("DHCP...");
   }
   Serial.println("IP address: ");
@@ -187,30 +186,29 @@ void setupRGBLED() {
 	pinMode(LEDg, OUTPUT);
 	pinMode(LEDb, OUTPUT);
 
-	setRGB(rVal, gVal, bVal);
+	setColour(rVal, gVal, bVal);
 }
 
-void setR(int val) {
-	if (val >= 0 && val <= 255) {
-		analogWrite(LEDr, val);
-	} else {
-	}
-}
-void setG(int val) {
-	if (val >= 0 && val <= 255) {
-		analogWrite(LEDg, val);
-	} else {
-	}
-}
-void setB(int val) {
-	if (val >= 0 && val <= 255) {
-		analogWrite(LEDb, val);
-	} else {
-	}
+void setColour(int valR, int valG, int valB) {
+  // Red
+  rVal = valR;
+  analogWrite(LEDr, rVal);
+  // Green
+  gVal = valG;
+  analogWrite(LEDg, gVal);
+  // Blue
+  bVal = valB;
+  analogWrite(LEDb, bVal);
 }
 
-void setRGB(int valR, int valG, int valB) {
-	setR(valR);
-	setG(valG);
-	setB(valB);
+/* (DEBUG) */
+void fadeColour() {
+  for (int i = 0; i < 255; i++) {
+    setColour(i, 255 - i, 0);
+    delay(50);
+  }
+  for (int i = 0; i < 255; i++) {
+    setColour(255 - i, i, 0);
+    delay(50);
+  }
 }
