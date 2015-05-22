@@ -5,9 +5,20 @@ Jesse Claven
 Supervisor: Mark Schulz
 */
 
+#include <Arduino.h>
 #include <SPI.h>
 #include <EEPROM.h> 
 #include <Ethernet.h>
+
+#include <Base64.h>
+#include <global.h>
+#include <MD5.h>
+#include <sha1.h>
+#include <WebSocketClient.h>
+
+#include <ArduinoJson.h>
+
+#include <DDP.h>
 
 /*******************************************************************************
 * ETHERNET
@@ -43,14 +54,14 @@ Connect the gain pins of the sensor to digital pins 7 - 12 (or ground).
 Connect the led pin to digital 13.
 Connect Vr to analog 0, Vg to analog 1, and Vb to analog 2.
 */
-const int ledpin 	= 13;
+const int ledpin = 13;
 // 7 - 12 digital
-const int GSR1  	= 12;
-const int GSR0 	= 11;
-const int GSG1 	= 10;
-const int GSG0 	= 9;
-const int GSB1 		= 8;
-const int GSB0 		= 7;
+const int GSR1 = 12;
+const int GSR0 = 11;
+const int GSG1 = 10;
+const int GSG0 = 9;
+const int GSB1 = 8;
+const int GSB0 = 7;
 
 const int Vr = A0;
 const int Vg = A1;
@@ -72,20 +83,25 @@ int rVal = 0;
 int gVal = 0;
 int bVal = 0;
 
+/*******************************************************************************
+* DDP
+*******************************************************************************/
+DDP ddp = DDP();
 
 /******************************************************************************/
 void setup() {
   Serial.begin(9600);
 
-  //setupEthernet();
+  setupEthernet();
   //setupColourSensor();
-  setupRGBLED();
+  //setupRGBLED();
+  ddp.setup("www.google.com");
 }
 
 void loop() {
   //readColour();
   //printColour();
-  fadeColour();
+  //fadeColour();
 }
 
 /*******************************************************************************
