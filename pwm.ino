@@ -54,18 +54,18 @@ Connect the gain pins of the sensor to digital pins 7 - 12 (or ground).
 Connect the led pin to digital 13.
 Connect Vr to analog 0, Vg to analog 1, and Vb to analog 2.
 */
-const int ledpin = 13;
-// 7 - 12 digital
-const int GSR1 = 12;
-const int GSR0 = 11;
-const int GSG1 = 10;
-const int GSG0 = 9;
-const int GSB1 = 8;
-const int GSB0 = 7;
+const int ledpin = 30;
+// 7 - 12 pwm (digital)
+const int GSR1 = 26;
+const int GSR0 = 28;
+const int GSG1 = 32;
+const int GSG0 = 33;
+const int GSB1 = 46;
+const int GSB0 = 48;
 
-const int Vr = A0;
-const int Vg = A1;
-const int Vb = A2;
+const int Vr = A3;
+const int Vg = A4;
+const int Vb = A5;
 
 // Sensor read values
 int r = 0;
@@ -75,9 +75,9 @@ int b = 0;
 /*******************************************************************************
 * RGB LED
 *******************************************************************************/
-const int LEDr = 7;
-const int LEDg = 6;
-const int LEDb = 5;
+const int LEDr = 22;
+const int LEDg = 24;
+const int LEDb = 26;
 
 int rVal = 0;
 int gVal = 0;
@@ -186,11 +186,11 @@ void printColour() {
 }
 
 void offColourSensorLED() {
-  digitalWrite(ledpin, HIGH);
+  digitalWrite(ledpin, LOW);
 }
 
 void onColourSensorLED() {
-  digitalWrite(ledpin, LOW);
+  digitalWrite(ledpin, HIGH);
 }
 
 /*******************************************************************************
