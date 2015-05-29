@@ -88,20 +88,47 @@ int bVal = 0;
 *******************************************************************************/
 DDP ddp = DDP();
 
+int _timer = 0;
+
 /******************************************************************************/
 void setup() {
   Serial.begin(9600);
 
+  setupColourSensor();
+  setupRGBLED();
+
   setupEthernet();
-  //setupColourSensor();
-  //setupRGBLED();
-  ddp.setup("www.google.com");
+  if (ddp.setup("www.google.com")) {
+    if (ddp.connect()) {
+      ddp.sub();
+
+      ddp.listen();
+    }
+  }
 }
 
 void loop() {
-  //readColour();
-  //printColour();
-  //fadeColour();
+  // Listen
+  ddp.listen();
+
+  // Update the colour to match the subscriptions
+  setColour(ddp.getR(), ddp.getG(), ddp.getB());
+  Serial.print("New colour: ");
+  Serial.print(ddp.getR());
+  Serial.print(" / ");
+  Serial.print(ddp.getG());
+  Serial.print(" / ");
+  Serial.println(ddp.getB());
+
+  // Read the colour and send it to the server
+  readColour();
+  printCurrentRGB();
+
+  delay(1000);
+  ddp.method(r, g, b);
+
+  _timer++;
+  delay(1000);
 }
 
 /*******************************************************************************
@@ -175,7 +202,7 @@ void readColour() {
 }
 
 /* (DEBUG)  Print values to the serial monitor*/
-void printColour() {
+void printCurrentRGB() {
   Serial.print("Red: ");
   Serial.print(r, DEC);
   Serial.print("\t\tGreen: ");
