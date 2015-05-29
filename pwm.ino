@@ -54,12 +54,12 @@ Connect the gain pins of the sensor to digital pins 7 - 12 (or ground).
 Connect the led pin to digital 13.
 Connect Vr to analog 0, Vg to analog 1, and Vb to analog 2.
 */
-const int ledpin = 30;
+const int ledpin = 32;
 // 7 - 12 pwm (digital)
-const int GSR1 = 26;
-const int GSR0 = 28;
-const int GSG1 = 32;
-const int GSG0 = 33;
+const int GSR1 = 30;
+const int GSR0 = 33;
+const int GSG1 = 34;
+const int GSG0 = 36;
 const int GSB1 = 46;
 const int GSB0 = 48;
 
@@ -75,9 +75,9 @@ int b = 0;
 /*******************************************************************************
 * RGB LED
 *******************************************************************************/
-const int LEDr = 22;
-const int LEDg = 24;
-const int LEDb = 26;
+const int LEDr = 26;
+const int LEDg = 22;
+const int LEDb = 24;
 
 int rVal = 0;
 int gVal = 0;
